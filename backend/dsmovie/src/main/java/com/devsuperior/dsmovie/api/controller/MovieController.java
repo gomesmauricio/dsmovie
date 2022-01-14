@@ -3,7 +3,9 @@ package com.devsuperior.dsmovie.api.controller;
 import java.util.List;
 
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -27,10 +29,15 @@ public class MovieController {
 	
 	
 	@GetMapping("/all")
-	public List<MovieDTO> finAll(Pageable pageable){
+	public Page<MovieDTO> finAll(@PageableDefault(size = 10) Pageable pageable){
 		Page<Movie> moviesPage = movieRepository.findAll(pageable);
 		
-		return movieMapper.toCollectionModel(moviesPage.getContent());
+		List<MovieDTO> moviesDTOs = movieMapper
+				.toCollectionModel(moviesPage.getContent());
+		
+		Page<MovieDTO> moviesDTOPage = new PageImpl<>(moviesDTOs, pageable, moviesPage.getTotalElements());
+		
+		return moviesDTOPage;
 		
 	}
 	
