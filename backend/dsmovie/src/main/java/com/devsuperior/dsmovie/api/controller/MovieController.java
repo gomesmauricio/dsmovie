@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.devsuperior.dsmovie.api.dto.MovieDTO;
 import com.devsuperior.dsmovie.api.mapper.MovieMapper;
+import com.devsuperior.dsmovie.domain.model.Movie;
 import com.devsuperior.dsmovie.domain.repositories.MovieRepository;
 import com.devsuperior.dsmovie.domain.service.CatalogoMovieService;
 
@@ -25,14 +26,11 @@ public class MovieController {
 	private CatalogoMovieService catalogoMovieService;
 	
 	
-	@GetMapping
-	public Page<MovieDTO> findPaged(Pageable pageable){
-		return catalogoMovieService.findPaged(pageable);
-	}
-	
 	@GetMapping("/all")
-	public List<MovieDTO> finAll(){
-		return movieMapper.toCollectionModel(movieRepository.findAll());
+	public List<MovieDTO> finAll(Pageable pageable){
+		Page<Movie> moviesPage = movieRepository.findAll(pageable);
+		
+		return movieMapper.toCollectionModel(moviesPage.getContent());
 		
 	}
 	
