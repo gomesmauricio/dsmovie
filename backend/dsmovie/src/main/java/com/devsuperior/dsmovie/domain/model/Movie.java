@@ -1,7 +1,8 @@
-package com.devsuperior.dsmovie.entities;
+package com.devsuperior.dsmovie.domain.model;
 
-import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
@@ -17,22 +18,17 @@ import lombok.Setter;
 @NoArgsConstructor
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
 @Entity
-@Table(name = "tb_score")
-public class Score {
+@Table(name = "tb_movie")
+public class Movie {
 	
-	@Id
-	@EmbeddedId
 	@EqualsAndHashCode.Include
-	private ScorePK id = new ScorePK();
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private Long id;
 	
-	private Double value;
-	
-	public void setMovie(Movie movie) {
-		id.setMovie(movie);
-	}
-	
-	public void seUser(User user) {
-		id.setUser(user);
-	}
+	private String title;
+	private Double score;
+	private Integer count;
+	private String image;
 
 }

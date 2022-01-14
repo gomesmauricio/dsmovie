@@ -1,4 +1,4 @@
-package com.devsuperior.dsmovie.entities;
+package com.devsuperior.dsmovie.domain.model;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -18,17 +18,13 @@ import lombok.Setter;
 @NoArgsConstructor
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
 @Entity
-@Table(name = "tb_movie")
-public class Movie {
+@Table(name = "tb_user")
+public class User {
 	
 	@EqualsAndHashCode.Include
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
-	
-	private String title;
-	private Double score;
-	private Integer count;
-	private String image;
+	private String email;
 
 }
