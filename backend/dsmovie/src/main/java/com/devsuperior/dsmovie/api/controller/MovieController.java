@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.devsuperior.dsmovie.api.dto.MovieDTO;
+import com.devsuperior.dsmovie.api.dto.MovieResponse;
 import com.devsuperior.dsmovie.api.mapper.MovieMapper;
 import com.devsuperior.dsmovie.domain.model.Movie;
 import com.devsuperior.dsmovie.domain.repositories.MovieRepository;
@@ -30,20 +30,20 @@ public class MovieController {
 	private CatalogoMovieService catalogoMovieService;
 	
 	@GetMapping
-	public Page<MovieDTO> finAll(@PageableDefault(size = 10) Pageable pageable){
+	public Page<MovieResponse> finAll(@PageableDefault(size = 10) Pageable pageable){
 		Page<Movie> moviesPage = movieRepository.findAll(pageable);
 		
-		List<MovieDTO> moviesDTOs = movieMapper
+		List<MovieResponse> moviesDTOs = movieMapper
 				.toCollectionModel(moviesPage.getContent());
 		
-		Page<MovieDTO> moviesDTOPage = new PageImpl<>(moviesDTOs, pageable, moviesPage.getTotalElements());
+		Page<MovieResponse> moviesDTOPage = new PageImpl<>(moviesDTOs, pageable, moviesPage.getTotalElements());
 		
 		return moviesDTOPage;
 		
 	}
 	
 	@GetMapping("/{movieId}")
-	public ResponseEntity<MovieDTO> findById(@PathVariable Long movieId) {
+	public ResponseEntity<MovieResponse> findById(@PathVariable Long movieId) {
 		return movieRepository.findById(movieId)
 				.map(movie -> ResponseEntity.ok(movieMapper.toModel(movie)))
 				.orElse(ResponseEntity.notFound().build());

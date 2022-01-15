@@ -6,7 +6,7 @@ import java.util.stream.Collectors;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Component;
 
-import com.devsuperior.dsmovie.api.dto.ScoreDTO;
+import com.devsuperior.dsmovie.api.dto.AvaliacaoResponse;
 import com.devsuperior.dsmovie.domain.model.Score;
 
 import lombok.AllArgsConstructor;
@@ -17,16 +17,16 @@ public class ScoreMapper {
 	
 	private ModelMapper modelMapper;
 	
-	public ScoreDTO toScoreModel(Score score) {
-		return modelMapper.map(score, ScoreDTO.class);		
+	public AvaliacaoResponse toScoreModel(Score score) {
+		return modelMapper.map(score, AvaliacaoResponse.class);		
 	}
 	
 	
-	public Score toScoreDTO(ScoreDTO scoreDTO) {
+	public Score toScoreDTO(AvaliacaoResponse scoreDTO) {
 		return modelMapper.map(scoreDTO, Score.class );		
 	}
 	
-	public List<ScoreDTO> toCollectionModel(List<Score> scoreList){
+	public List<AvaliacaoResponse> toCollectionModel(List<Score> scoreList){
 		return scoreList.stream()
 						.map(this::toScoreModel)
 						.collect(Collectors.toList());
