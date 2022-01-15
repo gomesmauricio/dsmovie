@@ -6,7 +6,9 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -27,8 +29,7 @@ public class MovieController {
 	private MovieRepository movieRepository;
 	private CatalogoMovieService catalogoMovieService;
 	
-	
-	@GetMapping("/all")
+	@GetMapping
 	public Page<MovieDTO> finAll(@PageableDefault(size = 10) Pageable pageable){
 		Page<Movie> moviesPage = movieRepository.findAll(pageable);
 		
@@ -39,6 +40,13 @@ public class MovieController {
 		
 		return moviesDTOPage;
 		
+	}
+	
+	@GetMapping("/{movieId}")
+	public ResponseEntity<MovieDTO> findById(@PathVariable Long movieId) {
+		return movieRepository.findById(movieId)
+				.map(movie -> ResponseEntity.ok(movieMapper.toModel(movie)))
+				.orElse(ResponseEntity.notFound().build());
 	}
 	
 }
