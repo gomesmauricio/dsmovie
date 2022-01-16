@@ -52,7 +52,6 @@ function Listing() {
                     )}
                 </div>
             </div>
-
         </>
     )
 }
